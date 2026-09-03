@@ -16,26 +16,27 @@ T = RING.get_gate("T-")
 """
 
 class Ring(Enum): 
-    CYCLOTOMIC1 = (1, "Z8") #1 qubit, entries in ring Z[w, 1/2] 
+    CYCLOTOMIC1 = (1, "Z8","1 qubit clifford + t") #1 qubit, entries in ring Z[w, 1/2] 
     #AStar
     
-    CYCLOTOMIC2 = (2,"Z8") #2 qubits, entries in ring Z[w, 1/2] 
+    CYCLOTOMIC2 = (2,"Z8","2 qubit clifford + t") #2 qubits, entries in ring Z[w, 1/2] 
     #AStar
     
-    CYCLOTOMIC2_with_CT = (2,"Z8") #2 qubits, entries in ring Z[w, 1/2]
+    CYCLOTOMIC2_with_CT = (2,"Z8","2 qubit clifford + t with CT") #2 qubits, entries in ring Z[w, 1/2]
     #AStar, greedy
 
-    GAUSSIAN2 = (2, "ZI")#2 qubits, Z[i]
+    GAUSSIAN2 = (2, "ZI","2 qubits rational clifford")#2 qubits, Z[i]
     #AStar, greedy
     
-    ZSQRT2_2 = (2, "ZSQRT2") #2 qubits, Z[sqrt2] 
-    #AStar, greedy
+    ZSQRT2_2 = (2, "ZSQRT2","2 qubits real clifford") #2 qubits, Z[sqrt2] 
+    #AStar, greedy,
 
-    DYADIC3 = (3,"DYADIC") #3 qubits, Z[1/2]
+    DYADIC3 = (3,"DYADIC",6,"2 qubits real, rational clifford") #3 qubits, Z[1/2]
 
-    def __init__(self,num_qubits,ring):
+    def __init__(self,num_qubits,ring,description):
         self.num_qubits = num_qubits
         self.ring = ring
+        self.description = description #necessary of cyclotomic2 and cyclotomic2_with_ct are defined identically.
 
     @property
     def ring_gates(self): #calls function from buildgates.py and returns the dictionary of gates

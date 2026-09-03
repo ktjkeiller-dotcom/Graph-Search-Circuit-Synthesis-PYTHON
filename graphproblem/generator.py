@@ -69,10 +69,6 @@ def make_gen_set(heuristic,basis,g_set,free_set): #RETURNS dictionary of generat
             #to expand a node, test every neighbour by conjugating with each free_set element and 
             #add neighbour to list of unique vertices and to working set, if the HNF is unique.
 
-            if len(vertices)==16:
-                print("Manually stopping generator search")
-                break
-
             new_gen = c.conjugate(g)
             new_gen.bmat = basis[0]*new_gen.mat*basis[1]
             mat = new_gen.bmat.copy()
