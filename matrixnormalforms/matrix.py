@@ -138,7 +138,7 @@ class Matrix:
         if elements_tuple in Matrix._determinant_saves:
             return Matrix._determinant_saves[elements_tuple]
 
-        total = type(self.get(0, 0)).get_zero()
+        total = self.get(0, 0).get_zero()
         for i in range(self.h):
             scale = self.get(i, 0)
             if i % 2 == 1:

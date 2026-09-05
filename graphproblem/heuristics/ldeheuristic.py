@@ -1,6 +1,6 @@
 from graphproblem.heuristicclass import HeuristicClass
 
-class VHeuristic(HeuristicClass):
+class LDEHeuristic(HeuristicClass):
 
     #basic heuristic = denominator exponent of DELTA for the ring. 
 

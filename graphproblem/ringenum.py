@@ -31,7 +31,7 @@ class Ring(Enum):
     ZSQRT2_2 = (2, "ZSQRT2","2 qubits real clifford") #2 qubits, Z[sqrt2] 
     #AStar, greedy,
 
-    DYADIC3 = (3,"DYADIC",6,"2 qubits real, rational clifford") #3 qubits, Z[1/2]
+    DYADIC3 = (3,"DYADIC","2 qubits real, rational clifford") #3 qubits, Z[1/2]
 
     def __init__(self,num_qubits,ring,description):
         self.num_qubits = num_qubits

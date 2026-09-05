@@ -62,6 +62,9 @@ class Q():
             else:
                 return rf"\frac{{{self.integer.latex()}}}{{{(self.int_type.DELTA.latex())}^{{{self.denom_exp}}}}}"
 
+    def _repr_latex_(self):
+            return rf"${self.latex()}$"
+    
     def __str__(self):
             """
             Pretty-print the number in LaTeX form.

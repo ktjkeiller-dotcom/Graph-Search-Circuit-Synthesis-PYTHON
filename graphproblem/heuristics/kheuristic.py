@@ -1,22 +1,22 @@
 from matrixnormalforms import matrix, snfproblem, q, qmatrix, ed
 from graphproblem.heuristicclass import HeuristicClass
 
-class VBHeuristic(HeuristicClass): 
+class KHeuristic(HeuristicClass): 
 
     #Heuristic defined in Equation 25 with pk = delta(k,n)
 
     def evaluate(self, bmat):
-        vb_vector = vb(bmat)
+        k_vec = k_vector(bmat)
         total = 0
 
-        for i in vb_vector:
+        for i in k_vec:
             total += i
 
         return total
 
-def vb(mat):
+def k_vector(mat):
 
-    #calculate the vb(U) vector from Equation 22
+    #calculate the k(U) vector from Equation 22
 
     #smith normal form is only defined for integer matrices but mat is not necessarily an integer matrix 
     #so we multiply by the largest denominator to make it integer
@@ -40,7 +40,7 @@ def vb(mat):
 
     assert((isinstance(v,ed.Ed) for v in diagonal)) #elements in diagonal should be integers
     delta = prob.J.elementT.DELTA #the integer version of DELTA
-    vb_vector = []
+    k_vec = []
 
     for entry in diagonal:
         k=0 #power
@@ -49,10 +49,10 @@ def vb(mat):
             z = delta.matrix.LUsolve(entry.coeffs)
             entry = prob.J.elementT([int(i) for i in z])
 
-        vb_vector.append(exp-k) #effectively undoing the multiplications we did earlier to make it an integer matrix
+        k_vec.append(exp-k) #effectively undoing the multiplications we did earlier to make it an integer matrix
 
-    vb_vector.reverse() 
-    #the diagonal elements of snf form divide the next but we need vb_vector entries to be non-increasing so
+    k_vec.reverse() 
+    #the diagonal elements of snf form divide the next but we need k_vec entries to be non-increasing so
     #we permute the elements of the diagonal. this is allowed since permutations are unimodular.
 
-    return vb_vector
+    return k_vec

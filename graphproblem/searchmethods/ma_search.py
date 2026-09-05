@@ -1,6 +1,5 @@
 from graphproblem.vertex import Vertex
 from graphproblem.searchclass import SearchClass
-from graphproblem.ma_form import ma_generators
 from graphproblem.generator import Generator
 from graphproblem.ringenum import Ring
 
@@ -12,7 +11,7 @@ We use the VHeuristic (denominator exponent of DELTA) to guide the search.
 VBHeuristic is only more effective in multi-qubit cases but MA_Form is only applicable for 1-qubit.
 """
 
-RING = Ring.CYCLOTOMIC2
+RING = Ring.CYCLOTOMIC1
 T = RING.get_gate("T-")
 T_inv = RING.get_gate("T'-")
 H = RING.get_gate("H-")
@@ -45,12 +44,12 @@ class MASearch(SearchClass):
 
     def __init__(self):
                 
-        cost_set, basis = ma_generators.get_matsumoto_gens()
+        cost_set, basis = get_matsumoto_gens()
         self.basis = basis
         self.gens = cost_set
 
 
-    def go(self,gens, start):
+    def go(self, start):
 
         #returns string sequence of generators and Clifford matrix 
 
@@ -60,10 +59,10 @@ class MASearch(SearchClass):
         if e_node.h == 0:
             return e_node.sequence, start
         
-        t_start_mat = gens[0].bmat * e_node.mat #start node if start with T = T_INV * START
+        t_start_mat = self.gens[0].bmat * e_node.mat #start node if start with T = T_INV * START
         t_node = Vertex(t_start_mat)
         t_node.h = t_start_mat.denom_exp
-        t_node.sequence = gens[0].symb
+        t_node.sequence = e_node.sequence + self.gens[0].symb 
 
         #Set the start either I or T
         if t_node.h<e_node.h:
@@ -76,37 +75,44 @@ class MASearch(SearchClass):
             #expand current node by pre-multiplying by HT_inv, SHT_inv
             #and picking the one which reduces the denominator exponent (more)
 
-            new_ht_mat = gens[1].bmat * current_node.mat
-            new_sht_mat = gens[2].bmat * current_node.mat
+            new_ht_mat = self.gens[1].bmat * current_node.mat
+            new_sht_mat = self.gens[2].bmat * current_node.mat
 
             if new_ht_mat.denom_exp < new_sht_mat.denom_exp:
                 new_node = Vertex(new_ht_mat)
                 new_node.h = new_ht_mat.denom_exp
-                new_node.sequence = current_node.sequence + gens[1].symb
+                new_node.sequence = current_node.sequence + self.gens[1].symb
                 current_node = new_node
                 print("HT gate added")
 
             else:
                 new_node = Vertex(new_sht_mat)
                 new_node.h = new_sht_mat.denom_exp
-                new_node.sequence = current_node.sequence + gens[2].symb
+                new_node.sequence = current_node.sequence + self.gens[2].symb
                 current_node = new_node
                 print("SHT gate added")
 
         return current_node.sequence, self.basis[1]*current_node.mat*self.basis[0]
 
-    def check_sequence(V,sequence,mat,gens_dict): 
+    def check_sequence(self,V,sequence,mat): 
             #overridden from SearchClass since MA_Form remainder clifford is at end of sequence, not start
     
             #gens_dict must be a dictionary of generators with g.symb as key
             #search through gens_dict for key matching start of sequence and post-multiply to recover U
-    
-            while sequence != "I":
-                for key in gens_dict.keys():
-                    if sequence.startswith(key):
-                        sequence = sequence[len(key):]
-                        V=gens_dict[key] *V
-    
+            display(V)
+            display(sequence)
+            while sequence != "I-":
+                if sequence.endswith("SHT-"):
+                    sequence = sequence[:-4]
+                    gen = self.gens[2]
+                elif sequence.endswith("HT-"):
+                    sequence = sequence[:-3]
+                    gen = self.gens[1]
+                elif sequence.endswith("T-"):
+                    sequence = sequence[:-2]
+                    gen = self.gens[0]
+                V=gen.mat *V
+                display(sequence)
             display(V)
             return V == mat
 
