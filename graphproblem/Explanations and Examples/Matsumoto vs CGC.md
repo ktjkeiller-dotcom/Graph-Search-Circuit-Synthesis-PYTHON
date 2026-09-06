@@ -2,9 +2,6 @@ Matsumoto-amano vs CGC' decompositions
 
 I ran on five tests and both forms gave the same T-count, although looked very different!
 
-I wonder if a two-qubit version of MA_form might work, using the denom_exponent to guide us? In
-the case that the CX are not needed. Is there a basis where H,S are integer but CX is not? We could
-maybe use that to split the algorithm.
-
-if there are no cx matrices, then the whole matrix is a tensor product of two matsumoto-amano forms, 
-and the one-qubit search could be adapted easily.
+If there are no CX matrices, then the whole circuit is a tensor product of two matsumoto-amano forms, 
+and perhaps a two-qubit matsumoto-amano form could be found. However, we'd need to find a way to check
+if a circuit required CX gates. Perhaps a basis where CX is non-integer? Or a specific way to check if two qubits are entangled (and therefore the circuit is not a tensor product of two one-qubit circuits).

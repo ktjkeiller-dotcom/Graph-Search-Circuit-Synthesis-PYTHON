@@ -2,10 +2,13 @@ Notation and variable naming:
 
 DELTA refers to the epsilon in the epsilon-rings. I have defined it for each ED according to Table 2.3
 of "Multiqubit synthesis and hermitian lattices"
+kheuristic = equation 25 ^^
+ldeheuristic = section 3.3 ^^
+
 
 Product symbols:
-* is matrix composition
-@ is tensor product 
+# * is matrix composition
+# @ is tensor product 
 
 Gates naming conventions:
 "H-" refers to the one-qubit Hadamard gate

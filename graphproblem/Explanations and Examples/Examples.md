@@ -10,16 +10,16 @@ from graphproblem.ring import Ring
 from graphproblem.heuristics.vheuristic import VHeuristic
 
 RING = Ring.ZSQRT2_2 --> synthesise a 2-qubit matrix over Z[sqrt2] 
-heuristic = VHeuristic() --> choose the heuristic to use (VHeuristic or VBHeuristic) 
+heuristic = LDEHeuristic() --> choose the heuristic to use (LDEHeuristic or KHeuristic) 
 search_method = astar.AStar(heuristic, RING) --> choose the search method (A*, GreedyBFS Matsumoto-Amano)
 
 gates = RING.ring_gates 
-CS = gates["CH-"] 
+CH = gates["CH-"] 
 EYE = gates["I-"] 
 HI = gates["H-"] @ EYE 
 IH = EYE @ gates["H-"] 
-SI = gates["Z-"] @ EYE 
+ZI = gates["Z-"] @ EYE 
 CX = gates["CX-"] 
-TEST = CSCXHISICSIHCXCSIHCSCX
+TEST = CH*CX*HI*SI*CH*IH*CX*CH*IH*CH*CX
 
 seq, V = search_method.search(TEST) --> returns string sequence of generators and remaining cost-free gate
