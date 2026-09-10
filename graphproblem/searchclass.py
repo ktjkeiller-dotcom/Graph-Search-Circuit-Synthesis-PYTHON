@@ -6,7 +6,7 @@ class InvalidRingForMethod(Exception):
 """Abstract base class for search methods."""
 
 """
-AStar and GreedyBFS called with (heuristic, RING) --> dets for which rings in ring.py
+AStar and GreedyBFS called with (heuristic, RING) --> dets for which rings in ringenum.py
 MA_Search called with no args
 """
 

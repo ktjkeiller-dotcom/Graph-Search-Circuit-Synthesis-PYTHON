@@ -7,6 +7,7 @@ from matrixnormalforms import matrix, qmatrix
 conjugated by a sequence of elements from the 'free_set'
 -- To move through the graph, we post-multiply the vertex' matrix (in the BW basis) by the inverse
 of the generator's matrix (in the BW basis), until we end up with just a Clifford matrix.
+-- Element of generating set G in "T-Optimal... Report"
 """
 
 class Generator:

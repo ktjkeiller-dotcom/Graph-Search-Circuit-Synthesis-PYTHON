@@ -8,6 +8,7 @@ class Vertex:
     -- Matrices A,B are equivalent if there is a unimodular matrix C such that A = CB (same HNF)
     Since Cliffords are unimodular in BW basis, this means the matrices have the same cost-optimal sequence
     of generators.
+    -- Represents vertex v_mat in "T-Optimal... Report"
 """
 
     def __init__(self, mat):

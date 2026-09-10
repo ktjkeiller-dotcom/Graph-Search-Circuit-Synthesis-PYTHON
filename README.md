@@ -9,3 +9,8 @@ For example, in the Clifford + T gate set, the "costly" gate is T, and the gener
 Graph traversal methods include two A* searches with different heuristics and Greedy-BFS. The vertices represent matrices that are the same up to pre-multiplication by a "cost-free" matrix and the edges represent generators. Finding the shortest path through the graph corresponds to finding the decomposition which uses the fewest "costly" gates.
 
 Matrix normal forms include Smith Normal Form (for an A* k-heuristic) and Hermite Normal Form (to create the generating sets, and can also be used to show vertices are equivalent/ unique).
+
+For further information and explanations, see 
+https://doi.org/10.48550/arXiv.2405.19302 "Multi-qubit synthesis and hermitian lattices" - Kliuchnikov, Schonnenbeck for general proofs over different rings
+and the attached PDF "T-Optimal Circuit Synthesis Report" for proofs specific to Clifford + T sets
+

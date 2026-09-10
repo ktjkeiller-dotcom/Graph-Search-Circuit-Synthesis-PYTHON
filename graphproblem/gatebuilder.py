@@ -4,7 +4,7 @@ from matrixnormalforms.qmatrix import QMatrix as fm
 
 """This holds the constructions of necessary gates to synthesise matrices over a given ring.
 
-When setting up a RING enum from rings.py, we call RING.build_problem_gates, which returns the list of 
+When setting up a RING enum from ringenum.py, we call RING.build_problem_gates, which returns the list of 
 free_gates, cost_gates, and basis_change gates.
 
 Functions "build_z..._gates():"
@@ -80,92 +80,91 @@ def make_gates(vals, ring, qubits): #returns a dictionary of basic gates that ca
         if qubits>1:
             gates["CT-"] = fm(4,4,[vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["w"]])
             gates["CT'-"] = fm(4,4,[vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],-vals["w"]*vals["i"]])
-            
+    
+    # if ring == "DYADIC": #define gates specific to dyadic ring 
+    #     gates["B-"] = fm(8,8,[
+    #         vals["1/2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         vals["0"],vals["1/2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         vals["0"],vals["0"],vals["1/2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         vals["1/2"],vals["1/2"],vals["1/2"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         vals["0"],vals["0"],vals["0"],vals["0"],vals["1/2"],vals["0"],vals["0"],vals["0"],
+    #         vals["1/2"],vals["1/2"],vals["0"],vals["0"],vals["1/2"],vals["1"],vals["0"],vals["0"],
+    #         vals["1/2"],vals["0"],vals["1/2"],vals["0"],vals["1/2"],vals["0"],vals["1"],vals["0"],
+    #         vals["0"],vals["1/2"],vals["1/2"],vals["0"],vals["1/2"],vals["0"],vals["0"],vals["1"]
+    #     ])
 
-    if ring == "DYADIC": #define gates specific to dyadic ring 
-        gates["B-"] = fm(8,8,[
-            vals["1/2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
-            vals["0"],vals["1/2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
-            vals["0"],vals["0"],vals["1/2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
-            vals["1/2"],vals["1/2"],vals["1/2"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],
-            vals["0"],vals["0"],vals["0"],vals["0"],vals["1/2"],vals["0"],vals["0"],vals["0"],
-            vals["1/2"],vals["1/2"],vals["0"],vals["0"],vals["1/2"],vals["1"],vals["0"],vals["0"],
-            vals["1/2"],vals["0"],vals["1/2"],vals["0"],vals["1/2"],vals["0"],vals["1"],vals["0"],
-            vals["0"],vals["1/2"],vals["1/2"],vals["0"],vals["1/2"],vals["0"],vals["0"],vals["1"]
-        ])
+    #     gates["B'-"] = fm(8,8,[
+    #         vals["2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         vals["0"],vals["2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         vals["0"],vals["0"],vals["2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         -vals["1"],-vals["1"],-vals["1"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         vals["0"],vals["0"],vals["0"],vals["0"],vals["2"],vals["0"],vals["0"],vals["0"],
+    #         -vals["1"],-vals["1"],vals["0"],vals["0"],-vals["1"],vals["1"],vals["0"],vals["0"],
+    #         -vals["1"],vals["0"],-vals["1"],vals["0"],-vals["1"],vals["0"],vals["1"],vals["0"],
+    #         vals["0"],-vals["1"],-vals["1"],vals["0"],-vals["1"],vals["0"],vals["0"],vals["1"]
+    #     ])
 
-        gates["B'-"] = fm(8,8,[
-            vals["2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
-            vals["0"],vals["2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
-            vals["0"],vals["0"],vals["2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
-            -vals["1"],-vals["1"],-vals["1"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],
-            vals["0"],vals["0"],vals["0"],vals["0"],vals["2"],vals["0"],vals["0"],vals["0"],
-            -vals["1"],-vals["1"],vals["0"],vals["0"],-vals["1"],vals["1"],vals["0"],vals["0"],
-            -vals["1"],vals["0"],-vals["1"],vals["0"],-vals["1"],vals["0"],vals["1"],vals["0"],
-            vals["0"],-vals["1"],-vals["1"],vals["0"],-vals["1"],vals["0"],vals["0"],vals["1"]
-        ])
+    #     gates["B2-"] = fm(8,8,[
+    #         vals["1/2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         vals["1/2"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         vals["1/2"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         vals["1/2"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         vals["1/2"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],
+    #         vals["1/2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],
+    #         vals["1/2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],
+    #         vals["1/2"],vals["1"],vals["1"],vals["1"],vals["1"],vals["1"],vals["1"],vals["2"]
+    #     ])
 
-        gates["B2-"] = fm(8,8,[
-            vals["1/2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
-            vals["1/2"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
-            vals["1/2"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
-            vals["1/2"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],
-            vals["1/2"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],
-            vals["1/2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],
-            vals["1/2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],
-            vals["1/2"],vals["1"],vals["1"],vals["1"],vals["1"],vals["1"],vals["1"],vals["2"]
-        ])
+    #     gates["B2'-"] = fm(8,8,[
+    #         vals["2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         -vals["1"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         -vals["1"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         -vals["1"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],
+    #         -vals["1"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],
+    #         -vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],
+    #         -vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],
+    #         vals["5/2"],-vals["1/2"],-vals["1/2"],-vals["1/2"],-vals["1/2"],-vals["1/2"],-vals["1/2"],vals["1/2"]
+    #         ])
 
-        gates["B2'-"] = fm(8,8,[
-            vals["2"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
-            -vals["1"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
-            -vals["1"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],
-            -vals["1"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],
-            -vals["1"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],vals["0"],
-            -vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],vals["0"],
-            -vals["1"],vals["0"],vals["0"],vals["0"],vals["0"],vals["0"],vals["1"],vals["0"],
-            vals["5/2"],-vals["1/2"],-vals["1/2"],-vals["1/2"],-vals["1/2"],-vals["1/2"],-vals["1/2"],vals["1/2"]
-            ])
+    #     gates["HH-"] = fm(4,4,[
+    #         vals["1/2"],  vals["1/2"],  vals["1/2"], vals["1/2"],
+    #         vals["1/2"], -vals["1/2"],  vals["1/2"],-vals["1/2"],
+    #         vals["1/2"],  vals["1/2"], -vals["1/2"],-vals["1/2"],
+    #         vals["1/2"], -vals["1/2"], -vals["1/2"], vals["1/2"]
+    #     ])
+    #     gates["HH'-"] = gates["HH-"].copy()
 
-        gates["HH-"] = fm(4,4,[
-            vals["1/2"],  vals["1/2"],  vals["1/2"], vals["1/2"],
-            vals["1/2"], -vals["1/2"],  vals["1/2"],-vals["1/2"],
-            vals["1/2"],  vals["1/2"], -vals["1/2"],-vals["1/2"],
-            vals["1/2"], -vals["1/2"], -vals["1/2"], vals["1/2"]
-        ])
-        gates["HH'-"] = gates["HH-"].copy()
+    #     gates["IHH-"] = gates["I-"] @ gates["HH-"]
+    #     swap_1_2 = swap @ gates["I-"]
+    #     gates["HIH-"] = swap_1_2 * gates["IHH-"] * swap_1_2
+    #     gates["HHI-"] = gates["HH-"] @ gates["I-"]
 
-        gates["IHH-"] = gates["I-"] @ gates["HH-"]
-        swap_1_2 = swap @ gates["I-"]
-        gates["HIH-"] = swap_1_2 * gates["IHH-"] * swap_1_2
-        gates["HHI-"] = gates["HH-"] @ gates["I-"]
+    #     gates["CZI-"] = gates["CZ-"] @ gates["I-"]
+    #     gates["ICZ-"] = gates["I-"] @ gates["CZ-"]
+    #     gates["CIZ-"] = swap_1_2 * gates["ICZ-"] * swap_1_2
 
-        gates["CZI-"] = gates["CZ-"] @ gates["I-"]
-        gates["ICZ-"] = gates["I-"] @ gates["CZ-"]
-        gates["CIZ-"] = swap_1_2 * gates["ICZ-"] * swap_1_2
+    #     gates["CCX-"] = fm(8,8,[
+    #         vals["1"], vals["0"], vals["0"], vals["0"],vals["0"], vals["0"], vals["0"], vals["0"],
+    #         vals["0"], vals["1"], vals["0"], vals["0"],vals["0"], vals["0"], vals["0"], vals["0"],
+    #         vals["0"], vals["0"], vals["1"], vals["0"],vals["0"], vals["0"], vals["0"], vals["0"],
+    #         vals["0"], vals["0"], vals["0"], vals["1"],vals["0"], vals["0"], vals["0"], vals["0"],
+    #         vals["0"], vals["0"], vals["0"], vals["0"],vals["1"], vals["0"], vals["0"], vals["0"],
+    #         vals["0"], vals["0"], vals["0"], vals["0"],vals["0"], vals["1"], vals["0"], vals["0"],
+    #         vals["0"], vals["0"], vals["0"], vals["0"],vals["0"], vals["0"], vals["0"], vals["1"],
+    #         vals["0"], vals["0"], vals["0"], vals["0"],vals["0"], vals["0"], vals["1"], vals["0"]
+    #         ])
 
-        gates["CCX-"] = fm(8,8,[
-            vals["1"], vals["0"], vals["0"], vals["0"],vals["0"], vals["0"], vals["0"], vals["0"],
-            vals["0"], vals["1"], vals["0"], vals["0"],vals["0"], vals["0"], vals["0"], vals["0"],
-            vals["0"], vals["0"], vals["1"], vals["0"],vals["0"], vals["0"], vals["0"], vals["0"],
-            vals["0"], vals["0"], vals["0"], vals["1"],vals["0"], vals["0"], vals["0"], vals["0"],
-            vals["0"], vals["0"], vals["0"], vals["0"],vals["1"], vals["0"], vals["0"], vals["0"],
-            vals["0"], vals["0"], vals["0"], vals["0"],vals["0"], vals["1"], vals["0"], vals["0"],
-            vals["0"], vals["0"], vals["0"], vals["0"],vals["0"], vals["0"], vals["0"], vals["1"],
-            vals["0"], vals["0"], vals["0"], vals["0"],vals["0"], vals["0"], vals["1"], vals["0"]
-            ])
-
-        gates["CCZ-"] = fm(8,8,[
-                vals["1"], vals["0"], vals["0"], vals["0"],vals["0"], vals["0"], vals["0"], vals["0"],
-                vals["0"], vals["1"], vals["0"], vals["0"],vals["0"], vals["0"], vals["0"], vals["0"],    
-                vals["0"], vals["0"], vals["1"], vals["0"],vals["0"], vals["0"], vals["0"], vals["0"],   
-                vals["0"], vals["0"], vals["0"], vals["1"],vals["0"], vals["0"], vals["0"], vals["0"],    
-                vals["0"], vals["0"], vals["0"], vals["0"],vals["1"], vals["0"], vals["0"], vals["0"],   
-                vals["0"], vals["0"], vals["0"], vals["0"],vals["0"], vals["1"], vals["0"], vals["0"],   
-                vals["0"], vals["0"], vals["0"], vals["0"],vals["0"], vals["0"], vals["1"], vals["0"],   
-                vals["0"], vals["0"], vals["0"], vals["0"],vals["0"], vals["0"], vals["0"], -vals["1"]
-                ])
-
+    #     gates["CCZ-"] = fm(8,8,[
+    #             vals["1"], vals["0"], vals["0"], vals["0"],vals["0"], vals["0"], vals["0"], vals["0"],
+    #             vals["0"], vals["1"], vals["0"], vals["0"],vals["0"], vals["0"], vals["0"], vals["0"],    
+    #             vals["0"], vals["0"], vals["1"], vals["0"],vals["0"], vals["0"], vals["0"], vals["0"],   
+    #             vals["0"], vals["0"], vals["0"], vals["1"],vals["0"], vals["0"], vals["0"], vals["0"],    
+    #             vals["0"], vals["0"], vals["0"], vals["0"],vals["1"], vals["0"], vals["0"], vals["0"],   
+    #             vals["0"], vals["0"], vals["0"], vals["0"],vals["0"], vals["1"], vals["0"], vals["0"],   
+    #             vals["0"], vals["0"], vals["0"], vals["0"],vals["0"], vals["0"], vals["1"], vals["0"],   
+    #             vals["0"], vals["0"], vals["0"], vals["0"],vals["0"], vals["0"], vals["0"], -vals["1"]
+    #             ])
+    
     return gates 
 
 def build_z8_gates(ring, qubits):
@@ -205,21 +204,21 @@ def build_zsqrt2_gates(ring, qubits):
     gates = make_gates(vals, ring, qubits)
     return gates
 
-def build_dyadic_gates(ring, qubits):
-    vals = {}
-    vals["1"] = q.Q([1],0,z.Z)
-    vals["0"] = q.Q([0],0,z.Z)
-    vals["1/2"] = q.Q([1],1,z.Z)
-    vals["2"] = vals["1"]+vals["1"]
-    vals["5/2"] = vals["2"] + vals["1/2"]
+# def build_dyadic_gates(ring, qubits):
+#     vals = {}
+#     vals["1"] = q.Q([1],0,z.Z)
+#     vals["0"] = q.Q([0],0,z.Z)
+#     vals["1/2"] = q.Q([1],1,z.Z)
+#     vals["2"] = vals["1"]+vals["1"]
+#     vals["5/2"] = vals["2"] + vals["1/2"]
 
-    gates = make_gates(vals, ring, qubits)
-    return gates
+#     gates = make_gates(vals, ring, qubits)
+#     return gates
 
 _RING_BUILDERS["Z8"] = build_z8_gates
 _RING_BUILDERS["ZI"] = build_zi_gates
 _RING_BUILDERS["ZSQRT2"] = build_zsqrt2_gates
-_RING_BUILDERS["DYADIC"] = build_dyadic_gates
+#_RING_BUILDERS["DYADIC"] = build_dyadic_gates
 
 def get_gates_for_ring(ring, qubits):
     if ring not in _RING_BUILDERS:

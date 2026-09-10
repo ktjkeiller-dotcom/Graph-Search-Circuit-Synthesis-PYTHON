@@ -9,6 +9,8 @@ I or T then a sequence of HT and/or SHT then a sequence of cliffords.
 
 We use the VHeuristic (denominator exponent of DELTA) to guide the search.
 VBHeuristic is only more effective in multi-qubit cases but MA_Form is only applicable for 1-qubit.
+
+Section 5 of "T-Optimal...Report"
 """
 
 RING = Ring.CYCLOTOMIC1

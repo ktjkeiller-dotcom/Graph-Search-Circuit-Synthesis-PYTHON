@@ -7,7 +7,7 @@ This defines the cost_free gates
  -- The class is similar to Generators, however with added functions
  .conjugate() which pre-multiplies by self.mat and post-multiplies by self.mat_inv
  __mul__ which allows for multiplication of a Clifford x Generator to create Matsumoto-Amano generators HT, SHT
-
+ -- Element of set C in "T-Optimal... Report" 
  """
 
 class Clifford:

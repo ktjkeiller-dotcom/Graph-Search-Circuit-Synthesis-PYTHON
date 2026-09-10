@@ -1,19 +1,21 @@
 from graphproblem.vertex import Vertex
-from graphproblem.heuristics.vbheuristic import vb
+from graphproblem.heuristics.kheuristic import k_vector
 from graphproblem import searchclass
 from graphproblem import generator
 from graphproblem.ringenum import Ring
 
 """This is the search method described in Algorithm 1 of https://doi.org/10.48550/arXiv.2405.19302
 
-This method assumes that at every vertex, there is a generator such that vb vector of
-the node its edge leads to strictly weakly majorises that of the current vertex. 
+This method assumes that at every vertex, there is a generator such that k_vector of
+the node its edge leads to strictly weakly majorises that of the current vertex.
+
+The k_vector is vb(U) in https://doi.org/10.48550/arXiv.2405.19302
 
 This does not guarantee finding the optimal T-count circuit, however it is guaranteed to terminate
 and quickly as it never backtracks.
 
 It relies on the "intermediate lattice property" which was exhaustively demonstrated for the lattices
-in the 2-qubit cases of ZI, Z8 (where the costly set is {T, CT}), ZSQRT2 and uses the vb vector defined in vbheuristic.py 
+in the 2-qubit cases of ZI, Z8 (where the costly set is {T, CT}), ZSQRT2 and uses the k_vector vector defined in kheuristic.py 
 """
 
 class GreedyBFS(searchclass.SearchClass):
@@ -36,7 +38,7 @@ class GreedyBFS(searchclass.SearchClass):
         mat = self.basis[0]*start*self.basis[1]
         node = Vertex(mat)
         node.sequence="I-"
-        node.h = vb(node.mat)
+        node.h = k_vector(node.mat)
         display(node.mat)
 
         while (node.mat).denom_exp != 0:
@@ -51,7 +53,7 @@ class GreedyBFS(searchclass.SearchClass):
 
                 new_matrix = node.mat * generator.bmat
                 neighbour = Vertex(new_matrix)
-                neighbour.h = vb(neighbour.mat)
+                neighbour.h = k_vector(neighbour.mat)
                 neighbour.sequence = generator.symb + node.sequence
                 print("Created node with sequence: ",neighbour.sequence)
                 print(neighbour.h)

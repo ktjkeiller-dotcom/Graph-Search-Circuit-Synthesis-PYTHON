@@ -3,6 +3,7 @@ from enum import Enum
 from graphproblem.clifford import Clifford
 from graphproblem.generator import Generator
 from graphproblem.gatebuilder import get_gates_for_ring
+from graphproblem.searchmethods.ma_search import B_inv
 
 """Ring enum defines the types of matrices we can synthesise
  -- each enum calls the relevant gate generator function from gatebuilder.py so that
@@ -31,7 +32,7 @@ class Ring(Enum):
     ZSQRT2_2 = (2, "ZSQRT2","2 qubits real clifford") #2 qubits, Z[sqrt2] 
     #AStar, greedy,
 
-    DYADIC3 = (3,"DYADIC","2 qubits real, rational clifford") #3 qubits, Z[1/2]
+    #DYADIC3 = (3,"DYADIC","2 qubits real, rational clifford") #3 qubits, Z[1/2]
 
     def __init__(self,num_qubits,ring,description):
         self.num_qubits = num_qubits
@@ -52,86 +53,86 @@ class Ring(Enum):
         EYE = gates["I-"]
         B = gates["B-"]
         B_inv = gates["B'-"]
-        
-        if self is Ring.DYADIC3:
-            X = gates["X-"]
-            Z = gates["Z-"]
 
-            CX = gates["CX-"]
-            XC = gates["XC-"]
-            CZ = gates["CZ-"]
-            ZC = gates["CZ-"]
+        # if self is Ring.DYADIC3: #Unfinished. 
+        #     X = gates["X-"]
+        #     Z = gates["Z-"]
 
-            IHH = gates["IHH-"]
-            HHI = gates["HHI-"]
-            HIH = gates["HIH-"]
+        #     CX = gates["CX-"]
+        #     XC = gates["XC-"]
+        #     CZ = gates["CZ-"]
+        #     ZC = gates["CZ-"]
 
-            #IXI = EYE@X@EYE
-            #XII = X@EYE@EYE
-            IIX = EYE@EYE@X
-            ZII = Z@EYE@EYE
-            IZI = EYE@Z@EYE
-            IIZ= EYE@EYE@Z
+        #     IHH = gates["IHH-"]
+        #     HHI = gates["HHI-"]
+        #     HIH = gates["HIH-"]
 
-            ICX = EYE@CX
-            IXC = EYE@XC
-            #CXI = CX@EYE
-            XCI  = XC@EYE
-            #XIC = gates["XIC-"]
-            #CIX = gates["CIX-"]
+        #     #IXI = EYE@X@EYE
+        #     #XII = X@EYE@EYE
+        #     IIX = EYE@EYE@X
+        #     ZII = Z@EYE@EYE
+        #     IZI = EYE@Z@EYE
+        #     IIZ= EYE@EYE@Z
 
-            ICZ = gates["ICZ-"]
-            #IZC = EYE@ZC
-            CZI = gates["CZI-"]
-            #ZCI = ZC@EYE
-            CIZ = gates["CIZ-"]
-            #ZIC = gates["ZIC-"]
+        #     ICX = EYE@CX
+        #     IXC = EYE@XC
+        #     #CXI = CX@EYE
+        #     XCI  = XC@EYE
+        #     #XIC = gates["XIC-"]
+        #     #CIX = gates["CIX-"]
 
-            #CCX= gates["CCX-"]
-            CCZ = gates["CCZ-"]
+        #     ICZ = gates["ICZ-"]
+        #     #IZC = EYE@ZC
+        #     CZI = gates["CZI-"]
+        #     #ZCI = ZC@EYE
+        #     CIZ = gates["CIZ-"]
+        #     #ZIC = gates["ZIC-"]
 
-            B2 = gates["B2-"]
-            B2_inv = gates["B2'-"]
+        #     #CCX= gates["CCX-"]
+        #     CCZ = gates["CCZ-"]
 
-            return ( 
-                [
-                    Clifford(HHI, HHI, "HHI-", "HHI'-"),
-                    Clifford(HIH, HIH, "HIH-", "HIH'-"),
-                    #Clifford(IHH, IHH, "IHH-", "IHH'-"), #dont need all three, since HHI * HIH = IHH
+        #     B2 = gates["B2-"]
+        #     B2_inv = gates["B2'-"]
 
-                    #Clifford(XII, XII, "XII-", "XII'-"),
-                    #Clifford(IXI, IXI, "IXI-", "IXI'-"),
-                    #Clifford(IIX, IIX, "IIX-", "IIX'-"),
+        #     return ( 
+        #         [
+        #             Clifford(HHI, HHI, "HHI-", "HHI'-"),
+        #             Clifford(HIH, HIH, "HIH-", "HIH'-"),
+        #             #Clifford(IHH, IHH, "IHH-", "IHH'-"), 
 
-                    Clifford(ZII, ZII, "ZII-", "ZII'-"),
-                    Clifford(IZI, IZI, "IZI-", "IZI'-"),
-                    Clifford(IIZ, IIZ, "IIZ-", "IIZ'-"),
+        #             #Clifford(XII, XII, "XII-", "XII'-"),
+        #             #Clifford(IXI, IXI, "IXI-", "IXI'-"),
+        #             #Clifford(IIX, IIX, "IIX-", "IIX'-"),
 
-                    Clifford(CZI, CZI, "CZI-", "CZI'-"),
-                    Clifford(ICZ, ICZ, "ICZ-", "ICZ'-"),
-                    Clifford(CIZ, CIZ, "CIZ-", "CIZ'-"),
+        #             Clifford(ZII, ZII, "ZII-", "ZII'-"),
+        #             Clifford(IZI, IZI, "IZI-", "IZI'-"),
+        #             Clifford(IIZ, IIZ, "IIZ-", "IIZ'-"),
 
-                    #Clifford(XCI, XCI, "XCI-", "XCI'-"),
-                    #Clifford(IXC, IXC, "IXC-", "IXC'-"),
-                    #Clifford(XIC, XIC, "XIC-", "XIC'-"),
-                    #Clifford(CXI, CXI, "CXI-", "CXI'-"),
-                    #Clifford(ICX, ICX, "ICX-", "ICX'-"),
-                    #Clifford(CIX, CIX, "CIX-", "ZIX'-"),
-                ],
-                [
-                    #Generator(CCX, CCX, "CCX-", "CCX'-"),
-                    #Generator(CXC, CXC, "CXC-", "CXC'-"),
-                    #Generator(XCC, XCC, "XCC-", "XCC'-"),
-                    Generator(CCZ, CCZ, "CCZ-", "CCZ'-"),
-                    #Generator(CZC, CZC, "CZC-", "CZC'-"),
-                    #Generator(ZCC, ZCC, "ZCC-", "ZCC'-"),
-                ],
-                [B_inv, B, B2_inv, B2]) #first basis CCZ is unimodular, second basis is CCX unimodular
-            
+        #             Clifford(CZI, CZI, "CZI-", "CZI'-"),
+        #             Clifford(ICZ, ICZ, "ICZ-", "ICZ'-"),
+        #             Clifford(CIZ, CIZ, "CIZ-", "CIZ'-"),
+
+        #             #Clifford(XCI, XCI, "XCI-", "XCI'-"),
+        #             #Clifford(IXC, IXC, "IXC-", "IXC'-"),
+        #             #Clifford(XIC, XIC, "XIC-", "XIC'-"),
+        #             #Clifford(CXI, CXI, "CXI-", "CXI'-"),
+        #             #Clifford(ICX, ICX, "ICX-", "ICX'-"),
+        #             #Clifford(CIX, CIX, "CIX-", "ZIX'-"),
+        #         ],
+        #         [
+        #             #Generator(CCX, CCX, "CCX-", "CCX'-"),
+        #             #Generator(CXC, CXC, "CXC-", "CXC'-"),
+        #             #Generator(XCC, XCC, "XCC-", "XCC'-"),
+        #             Generator(CCZ, CCZ, "CCZ-", "CCZ'-"),
+        #             #Generator(CZC, CZC, "CZC-", "CZC'-"),
+        #             #Generator(ZCC, ZCC, "ZCC-", "ZCC'-"),
+        #         ],
+        #         [B_inv, B, B2_inv, B2]) #first basis CCZ is unimodular, second basis is CCX unimodular
+
         #gates with an implementation in every following ring 
         H = gates["H-"]
         H_inv = gates["H'-"]
-
+        
         if self.ring == "Z8":
             S = gates["S-"]
             S_inv = gates["S'-"]
@@ -199,8 +200,6 @@ class Ring(Enum):
                         Generator(CT,CT_inv, "CT-", "CT'-")
                     ],
                     [B_inv @ B_inv, B @ B])
-
-
 
         elif self is Ring.GAUSSIAN2:
             S = gates["S-"]

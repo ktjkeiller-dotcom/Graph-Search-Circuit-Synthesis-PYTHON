@@ -11,6 +11,7 @@ from graphproblem import generator
  -- We can change the weightings in the sum h (heuristic) + g (actual cost) but this does come at the price
   of not guaranteeing a shortest path. Increasing the weighting of the heuristic valuation leads to a more guided
   search and terminates faster, although may not be the optimal circuit. 
+  -- Section 4 of "T-Optimal... Report
   """
 
 class AStar(SearchClass):
